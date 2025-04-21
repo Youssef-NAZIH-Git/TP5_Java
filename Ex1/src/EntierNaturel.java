@@ -1,6 +1,5 @@
 public class EntierNaturel {
     int val;
-
     public EntierNaturel(int val) throws NombreNegatifException {
         if (val < 0){
             throw new NombreNegatifException("Nombre negatif!", val);
