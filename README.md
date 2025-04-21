@@ -1,7 +1,4 @@
 # Exercice 1
-
-Ce projet contient deux classes principales :
-
 ## 1. NombreNegatifException.java
 
 Exception personnalisée utilisée pour signaler toute tentative d’utilisation d’une valeur négative dans un contexte où cela n’est pas permis.
@@ -82,3 +79,74 @@ Decrementer va donner:  -1
 Nombre negatif! -2
 Nombre negatif! Erreur de set:  -3
 ```
+
+
+# Exercice 2
+## Classes principales
+
+### `CompteBancaire`
+Classe de base représentant un compte bancaire.
+
+#### Méthodes importantes :
+- `depotArgent(float montant)` : Ajoute de l'argent au compte.
+- `retirerArgent(float montant)` : Retire de l'argent du compte.
+  - Lève `FondsInsuffisantsException` si le solde est insuffisant.
+- `transferArgents(CompteBancaire cpt, float montant)` : Transfère des fonds vers un autre compte.
+  - Lève `FondsInsuffisantsException` ou `CompteInexistantException`.
+
+---
+
+### `CompteCourant`
+Hérite de `CompteBancaire`. Autorise un découvert jusqu'à une certaine limite.
+
+- Le retrait et le transfert prennent en compte la limite de découvert.
+- Les mêmes exceptions que `CompteBancaire` sont levées en cas de dépassement de cette limite.
+
+---
+
+### `CompteEpargne`
+Hérite de `CompteBancaire`. Permet la génération d’intérêts.
+
+- `genererInteret()` :
+  - Lève `FondsInsuffisantsException` si le solde est nul ou négatif.
+
+---
+
+## Exceptions personnalisées
+
+### `FondsInsuffisantsException`
+Lancée lorsqu’une opération ne peut pas être effectuée à cause d’un solde insuffisant. Elle fournit :
+- Le montant impliqué
+- Un message détaillé
+
+### `CompteInexistantException`
+Lancée lors d’un transfert vers un compte non valide (null).
+
+---
+
+## Classe `Main`
+
+La classe de test `Main` :
+- Crée des comptes (`CompteCourant`, `CompteEpargne`)
+- Effectue des dépôts, retraits, transferts
+- Gère correctement les exceptions en affichant des messages explicites
+
+### Exemples :
+- Tentative de retrait supérieur à la limite de découvert déclenche `FondsInsuffisantsException`
+- Génération d'intérêt avec solde nul déclenche aussi `FondsInsuffisantsException`
+- Tentative de transfert vers un compte null déclenche `CompteInexistantException`
+
+---
+
+## Exécution
+
+Compilation :
+```bash
+javac *.java
+```
+
+Exécution :
+```bash
+java Main
+```
+
